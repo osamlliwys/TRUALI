@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRUALI - Cipher Learning Tool</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 TRUALI</h1>
+        <p class="subtitle">Learn basic encoding and decoding</p>
+        
+        <div class="mode-selector">
+            <button id="encodeBtn" class="mode-btn active">Encode</button>
+            <button id="decodeBtn" class="mode-btn">Decode</button>
+        </div>
+
+        <div class="input-section">
+            <label for="inputText">Enter your message:</label>
+            <textarea id="inputText" placeholder="Type your message here..." rows="6"></textarea>
+        </div>
+
+        <button id="processBtn" class="process-btn">🔄 Encode Message</button>
+
+        <div class="output-section">
+            <label for="outputText">Result:</label>
+            <textarea id="outputText" placeholder="Your result will appear here..." rows="6" readonly></textarea>
+        </div>
+
+        <div class="actions">
+            <button id="copyBtn" class="action-btn">📋 Copy Result</button>
+            <button id="clearBtn" class="action-btn">🗑️ Clear All</button>
+        </div>
+
+        <div class="cipher-info">
+            <h3>📚 How it works:</h3>
+            <p>This app uses a substitution cipher where each letter is replaced with another letter.</p>
+            <details>
+                <summary>View Cipher Key</summary>
+                <div class="cipher-key">
+                    A→Y | B→Z | C→A | D→B | E→C | F→D | G→E | H→F | I→G | J→H<br>
+                    K→I | L→J | M→K | N→L | O→M | P→N | Q→O | R→P | S→Q | T→R<br>
+                    U→S | V→T | W→U | X→V | Y→W | Z→X
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

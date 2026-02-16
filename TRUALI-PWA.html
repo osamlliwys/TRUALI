@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRUALI - Cipher Learning Tool</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="description" content="TRUALI - Simple offline cipher encoder/decoder for learning">
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="TRUALI">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="truali-manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMjQiIGZpbGw9InVybCgjZ3JhZGllbnQwX2xpbmVhcl8xXzEpIi8+CjxwYXRoIGQ9Ik05NiA0OEM3NC4zNCA0OCA1NyA2NS4zNCA1NyA4N1Y5NkM1NyAxMTcuNjYgNzQuMzQgMTM1IDk2IDEzNUMxMTcuNjYgMTM1IDEzNSAxMTcuNjYgMTM1IDk2Vjg3QzEzNSA2NS4zNCAxMTcuNjYgNDggOTYgNDhaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNODQgNzJIMTA4VjEwOEg4NFY3MloiIGZpbGw9IiM2NjdlZWEiLz4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZGllbnQwX2xpbmVhcl8xXzEiIHgxPSIwIiB5MT0iMCIgeDI9IjE5MiIgeTI9IjE5MiIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBzdG9wLWNvbG9yPSIjNjY3ZWVhIi8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzc2NGJhMiIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPgo=">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .install-banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .install-banner.show {
+            display: block;
+        }
+
+        .install-btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .mode-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .mode-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .mode-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .input-section, .output-section {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: 'Courier New', monospace;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .process-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+        }
+
+        .process-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .process-btn:active {
+            transform: translateY(0);
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 12px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .action-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .cipher-info {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .cipher-info h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .cipher-info p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        details {
+            margin-top: 15px;
+        }
+
+        summary {
+            cursor: pointer;
+            color: #667eea;
+            font-weight: bold;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+        }
+
+        .cipher-key {
+            margin-top: 10px;
+            padding: 15px;
+            background: white;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="installBanner" class="install-banner">
+            <div>📱 Install TRUALI as an app!</div>
+            <button id="installBtn" class="install-btn">Install App</button>
+        </div>
+
+        <h1>🔐 TRUALI</h1>
+        <p class="subtitle">Learn basic encoding and decoding</p>
+        
+        <div class="mode-selector">
+            <button id="encodeBtn" class="mode-btn active">Encode</button>
+            <button id="decodeBtn" class="mode-btn">Decode</button>
+        </div>
+
+        <div class="input-section">
+            <label for="inputText">Enter your message:</label>
+            <textarea id="inputText" placeholder="Type your message here..." rows="6"></textarea>
+        </div>
+
+        <button id="processBtn" class="process-btn">🔄 Encode Message</button>
+
+        <div class="output-section">
+            <label for="outputText">Result:</label>
+            <textarea id="outputText" placeholder="Your result will appear here..." rows="6" readonly></textarea>
+        </div>
+
+        <div class="actions">
+            <button id="copyBtn" class="action-btn">📋 Copy Result</button>
+            <button id="clearBtn" class="action-btn">🗑️ Clear All</button>
+        </div>
+
+        <div class="cipher-info">
+            <h3>📚 How it works:</h3>
+            <p>This app uses a substitution cipher where each letter is replaced with another letter.</p>
+            <details>
+                <summary>View Cipher Key</summary>
+                <div class="cipher-key">
+                    A→Y | B→Z | C→A | D→B | E→C | F→D | G→E | H→F | I→G | J→H<br>
+                    K→I | L→J | M→K | N→L | O→M | P→N | Q→O | R→P | S→Q | T→R<br>
+                    U→S | V→T | W→U | X→V | Y→W | Z→X
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <script>
+        // PWA Installation
+        let deferredPrompt;
+        const installBanner = document.getElementById('installBanner');
+        const installBtn = document.getElementById('installBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBanner.classList.add('show');
+        });
+
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    installBanner.classList.remove('show');
+                }
+                deferredPrompt = null;
+            }
+        });
+
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('truali-sw.js')
+                    .then((registration) => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch((registrationError) => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+
+        // Cipher mapping based on the provided methodology
+        const encodeMap = {
+            'A': 'Y', 'B': 'Z', 'C': 'A', 'D': 'B', 'E': 'C', 'F': 'D', 'G': 'E', 'H': 'F',
+            'I': 'G', 'J': 'H', 'K': 'I', 'L': 'J', 'M': 'K', 'N': 'L', 'O': 'M', 'P': 'N',
+            'Q': 'O', 'R': 'P', 'S': 'Q', 'T': 'R', 'U': 'S', 'V': 'T', 'W': 'U', 'X': 'V',
+            'Y': 'W', 'Z': 'X'
+        };
+
+        // Create reverse mapping for decoding
+        const decodeMap = {};
+        for (let key in encodeMap) {
+            decodeMap[encodeMap[key]] = key;
+        }
+
+        // State
+        let currentMode = 'encode';
+
+        // DOM Elements
+        const encodeBtn = document.getElementById('encodeBtn');
+        const decodeBtn = document.getElementById('decodeBtn');
+        const inputText = document.getElementById('inputText');
+        const outputText = document.getElementById('outputText');
+        const processBtn = document.getElementById('processBtn');
+        const copyBtn = document.getElementById('copyBtn');
+        const clearBtn = document.getElementById('clearBtn');
+
+        // Mode switching
+        encodeBtn.addEventListener('click', () => {
+            currentMode = 'encode';
+            encodeBtn.classList.add('active');
+            decodeBtn.classList.remove('active');
+            processBtn.textContent = '🔄 Encode Message';
+            processText();
+        });
+
+        decodeBtn.addEventListener('click', () => {
+            currentMode = 'decode';
+            decodeBtn.classList.add('active');
+            encodeBtn.classList.remove('active');
+            processBtn.textContent = '🔄 Decode Message';
+            processText();
+        });
+
+        // Cipher functions
+        function encode(text) {
+            return text.split('').map(char => {
+                const upperChar = char.toUpperCase();
+                if (encodeMap[upperChar]) {
+                    return char === char.toUpperCase() ? encodeMap[upperChar] : encodeMap[upperChar].toLowerCase();
+                }
+                return char;
+            }).join('');
+        }
+
+        function decode(text) {
+            return text.split('').map(char => {
+                const upperChar = char.toUpperCase();
+                if (decodeMap[upperChar]) {
+                    return char === char.toUpperCase() ? decodeMap[upperChar] : decodeMap[upperChar].toLowerCase();
+                }
+                return char;
+            }).join('');
+        }
+
+        // Process text
+        function processText() {
+            const input = inputText.value;
+            if (!input.trim()) {
+                outputText.value = '';
+                return;
+            }
+            
+            const result = currentMode === 'encode' ? encode(input) : decode(input);
+            outputText.value = result;
+        }
+
+        // Event listeners
+        processBtn.addEventListener('click', processText);
+        inputText.addEventListener('input', processText);
+
+        copyBtn.addEventListener('click', async () => {
+            if (outputText.value) {
+                try {
+                    await navigator.clipboard.writeText(outputText.value);
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '✅ Copied!';
+                    setTimeout(() => {
+                        copyBtn.textContent = originalText;
+                    }, 2000);
+                } catch (err) {
+                    // Fallback for older browsers
+                    outputText.select();
+                    document.execCommand('copy');
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '✅ Copied!';
+                    setTimeout(() => {
+                        copyBtn.textContent = originalText;
+                    }, 2000);
+                }
+            }
+        });
+
+        clearBtn.addEventListener('click', () => {
+            inputText.value = '';
+            outputText.value = '';
+            inputText.focus();
+        });
+
+        // Initialize
+        inputText.focus();
+    </script>
+</body>
+</html>
